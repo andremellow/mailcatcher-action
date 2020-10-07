@@ -10,5 +10,6 @@ RUN apk update \
 
 EXPOSE 1025 1080
 
-ENTRYPOINT ["mailcatcher", "-f"]
-CMD ["--ip", "0.0.0.0"]
+RUN mailcatcher --foreground --ip=0.0.0.0
+# ENTRYPOINT ["mailcatcher &", "-f"]
+# CMD ["--ip", "0.0.0.0"]
