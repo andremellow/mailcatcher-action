@@ -1,7 +1,11 @@
-FROM schickling/mailcatcher
+FROM dockage/alpine:3.5
 
-LABEL maintainer="Johannes Schickling <schickling.j@gmail.com>"
+ENV MAILCATCHER_VERSION=0.7.1
 
-
+RUN apk update \
+    && apk --no-cache add g++ make ruby2.2 ruby2.2-dev ruby2.2-json sqlite-dev \
+    && gem2.2 install mailcatcher:${MAILCATCHER_VERSION} --no-ri --no-rdoc \
+    && apk del g++ make \
+    && rm -rf /var/cache/apk/*
 
 EXPOSE 1025 1080
