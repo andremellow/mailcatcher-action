@@ -1,14 +1,24 @@
-FROM dockage/alpine:3.5
+FROM ruby:2.4-alpine3.6
 
-ENV MAILCATCHER_VERSION=0.7.1
+LABEL maintainer="Johannes Schickling <schickling.j@gmail.com>"
 
-RUN apk update \
-    && apk --no-cache add g++ make ruby2.2 ruby2.2-dev ruby2.2-json sqlite-dev \
-    && gem2.2 install mailcatcher:${MAILCATCHER_VERSION} --no-ri --no-rdoc \
-    && apk del g++ make \
-    && rm -rf /var/cache/apk/*
+RUN set -xe \
+    && apk add --no-cache \
+    libstdc++ \
+    sqlite-libs \
+    && apk add --no-cache --virtual .build-deps \
+    build-base \
+    sqlite-dev \
+    && gem install mailcatcher -v 0.6.5 --no-ri --no-rdoc \
+    && apk del .build-deps
 
-EXPOSE 1025 1080
+# smtp port
+EXPOSE 1025
+
+# webserver port
+EXPOSE 1080
+
+CMD ["mailcatcher", "--no-quit", "--foreground", "--ip=0.0.0.0"]
 
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
