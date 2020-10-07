@@ -9,3 +9,6 @@ RUN apk update \
     && rm -rf /var/cache/apk/*
 
 EXPOSE 1025 1080
+
+ENTRYPOINT ["mailcatcher", "-f"]
+CMD ["--ip", "0.0.0.0"]

@@ -2,7 +2,7 @@
 
 echo "Running Mail catcher"
 
-mailcatcher --foreground --ip=0.0.0.0
+#mailcatcher --foreground --ip=0.0.0.0
 
 echo "Done"
 
